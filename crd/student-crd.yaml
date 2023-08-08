@@ -1,0 +1,58 @@
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  # metadata.name的内容是由"复数名.分组名"构成，如下，students是复数名，bolingcavalry.k8s.io是分组名
+  name: students.bolingcavalry.k8s.io
+  annotations:
+    api-approved.kubernetes.io: "unapproved"
+spec:
+  conversion:
+    strategy: None
+  # 分组名，在REST API中也会用到的，格式是: /apis/分组名/CRD版本
+  group: bolingcavalry.k8s.io
+  # list of versions supported by this CustomResourceDefinition
+  versions:
+    - name: v1
+      schema:
+        openAPIV3Schema:
+          # 该CRD的定义
+          properties:
+            # APIVersion定义了该对象的API版本
+            #apiVersion:
+            #  description: 'APIVersion defines the versioned scheme of this representation
+            #  of an object. Servers should convert recognized schemas to the latest
+            #  internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#resource'
+            #  type: string
+            #kind:
+            #  description: 'Kind is a string value representing the REST resource this
+            #    object represents. Servers may infer this from the endpoint the client
+            #    submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+             # type: string
+            meta:
+              type: object
+            spec:
+              type: object
+              x-kubernetes-preserve-unknown-fields: true
+            status:
+              type: object
+              x-kubernetes-preserve-unknown-fields: true
+          type: object
+          x-kubernetes-preserve-unknown-fields: true
+      # 是否有效的开关.
+      served: true
+      # 只有一个版本能被标注为storage
+      storage: true
+      subresources:
+        status: {}
+  # 范围是属于namespace的
+  scope: Namespaced
+  names:
+    # 复数名
+    plural: students
+    # 单数名
+    singular: student
+    # 类型名
+    kind: Student
+    # 简称，就像service的简称是svc
+    shortNames:
+    - stu

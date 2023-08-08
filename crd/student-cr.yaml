@@ -1,0 +1,8 @@
+apiVersion: bolingcavalry.k8s.io/v1
+kind: Student
+metadata:
+  namespace: default
+  name: fend-demo-test
+spec:
+  name: "wangwu"
+  school: "hongxingxiaoxue"
